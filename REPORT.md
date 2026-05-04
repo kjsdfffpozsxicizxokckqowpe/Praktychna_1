@@ -59,3 +59,26 @@ Init-only властивості потрібні для даних, які мо
 ## Що нового було вивчено
 
 Під час виконання роботи закріплено використання різних типів властивостей у C#, валідацію у setter, обчислювані властивості, `required`, `init`, приватні setter, роботу з `List<T>`, `Dictionary<TKey,TValue>`, enum, JSON через `System.Text.Json`, а також базову Git-структуру з feature-гілками.
+
+## Робота з Git
+
+Репозиторій ініціалізовано в папці `Pracktuchna №1_Куцевич`. Створено `.gitignore`, щоб не додавати в Git службові папки `bin/`, `obj/`, `.vs/` і файл даних `students.json`.
+
+Структура гілок відповідає методичці:
+
+- `main` - стабільна фінальна версія практичної роботи.
+- `feature/student-class` - гілка для етапу створення класу `Student`, enum `StudentStatus`, валідації, властивостей і `GradeJournal`.
+- `feature/group-management` - гілка для етапу створення `StudentGroup`, пошуку, фільтрації, статистики та роботи зі списком студентів.
+- `feature/file-storage` - гілка для етапу консольного меню, JSON-збереження та завантаження даних.
+
+Кожен етап оформлено окремими комітами з описовими повідомленнями. Після створення репозиторію на GitHub треба додати remote і запушити кожну гілку окремо:
+
+```bash
+git remote add origin https://github.com/USERNAME/REPOSITORY.git
+git push -u origin main
+git push -u origin feature/student-class
+git push -u origin feature/group-management
+git push -u origin feature/file-storage
+```
+
+Посилання на GitHub-репозиторій: `TODO: вставити посилання після створення репозиторію`.
