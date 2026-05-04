@@ -35,9 +35,9 @@ public sealed class GradeJournal
 
     private static void ValidateGrade(double grade)
     {
-        if (grade is < 0 or > 100)
+        if (grade is < 0 or > 10)
         {
-            throw new ArgumentOutOfRangeException(nameof(grade), "Оцінка має бути від 0 до 100.");
+            throw new ArgumentOutOfRangeException(nameof(grade), "Оцінка має бути від 0 до 10.");
         }
     }
 }

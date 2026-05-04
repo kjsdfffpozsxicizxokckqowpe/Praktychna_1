@@ -113,7 +113,7 @@ public sealed class Student
         builder.AppendLine($"Залікова книжка: {RecordBookNumber}");
         builder.AppendLine($"Дата народження: {DateOfBirth:dd.MM.yyyy} ({Age} років)");
         builder.AppendLine($"Email: {PersonalEmail}");
-        builder.AppendLine($"Статус: {Status}");
+        builder.AppendLine($"Статус: {Status.ToDisplayName()}");
         builder.AppendLine($"Дата зарахування: {EnrollmentDate:dd.MM.yyyy}");
         builder.AppendLine($"Середній бал: {AverageGrade:F2}");
         builder.AppendLine($"Років до випуску: {GetYearsToGraduation()}");
@@ -148,12 +148,12 @@ public sealed class Student
 
     public bool IsExcellent()
     {
-        return AverageGrade >= 90 && Status == StudentStatus.Active;
+        return AverageGrade >= 9 && Status == StudentStatus.Active;
     }
 
     public bool IsFailing()
     {
-        return AverageGrade < 60 && Status == StudentStatus.Active;
+        return AverageGrade < 6 && Status == StudentStatus.Active;
     }
 
     public int CalculateAge()
@@ -182,9 +182,9 @@ public sealed class Student
 
     private static void ValidateGrade(double grade)
     {
-        if (grade is < 0 or > 100)
+        if (grade is < 0 or > 10)
         {
-            throw new ArgumentOutOfRangeException(nameof(grade), "Середній бал має бути від 0 до 100.");
+            throw new ArgumentOutOfRangeException(nameof(grade), "Середній бал має бути від 0 до 10.");
         }
     }
 }

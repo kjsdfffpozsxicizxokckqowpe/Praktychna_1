@@ -1,5 +1,7 @@
 namespace StudentGroupManagement;
 
+using System.Text.Json;
+
 public sealed class StudentGroup
 {
     private readonly List<Student> _students = [];
@@ -125,4 +127,61 @@ public sealed class StudentGroup
     {
         return GroupSize == 0 ? 0 : Math.Round(GetExcellentStudents().Count * 100.0 / GroupSize, 2);
     }
+
+    public void SaveToFile(string filePath)
+    {
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            throw new ArgumentException("Шлях до файлу не може бути порожнім.", nameof(filePath));
+        }
+
+        var directory = Path.GetDirectoryName(Path.GetFullPath(filePath));
+        if (!string.IsNullOrWhiteSpace(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        var storage = new StudentGroupStorage(Name, Specialty, Course, _students);
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true
+        };
+
+        File.WriteAllText(filePath, JsonSerializer.Serialize(storage, options));
+    }
+
+    public static StudentGroup LoadFromFile(string filePath)
+    {
+        if (!File.Exists(filePath))
+        {
+            throw new FileNotFoundException("Файл з даними групи не знайдено.", filePath);
+        }
+
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+        var storage = JsonSerializer.Deserialize<StudentGroupStorage>(File.ReadAllText(filePath), options)
+            ?? throw new InvalidOperationException("Файл порожній або має неправильний формат.");
+
+        var group = new StudentGroup
+        {
+            Name = storage.Name,
+            Specialty = storage.Specialty,
+            Course = storage.Course
+        };
+
+        foreach (var student in storage.Students)
+        {
+            group.AddStudent(student);
+        }
+
+        return group;
+    }
+
+    private sealed record StudentGroupStorage(
+        string Name,
+        string Specialty,
+        int Course,
+        List<Student> Students);
 }
