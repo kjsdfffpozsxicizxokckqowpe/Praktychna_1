@@ -81,4 +81,4 @@ git push -u origin feature/group-management
 git push -u origin feature/file-storage
 ```
 
-Посилання на GitHub-репозиторій: `TODO: вставити посилання після створення репозиторію`.
+Посилання на GitHub-репозиторій: https://github.com/kjsdfffpozsxicizxokckqowpe/Praktychna_1
