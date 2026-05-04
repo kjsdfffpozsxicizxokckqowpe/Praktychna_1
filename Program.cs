@@ -76,7 +76,7 @@ static void PrintMenu(StudentGroup group)
     Console.WriteLine("3. Вивести всіх студентів");
     Console.WriteLine("4. Пошук студента");
     Console.WriteLine("5. Редагування даних студента");
-    Console.WriteLine("6. Вивести відмінників / тих, хто має < 60 балів");
+    Console.WriteLine("6. Вивести відмінників / тих, хто має < 6 балів");
     Console.WriteLine("7. Вивести статистику групи");
     Console.WriteLine("8. Зберегти дані групи у файл");
     Console.WriteLine("9. Завантажити дані групи з файлу");
@@ -92,7 +92,7 @@ static void AddStudent(StudentGroup group)
     var dateOfBirth = ReadDate("Дата народження (дд.мм.рррр): ");
     var enrollmentDate = ReadDate("Дата зарахування (дд.мм.рррр): ");
     var email = ReadRequired("Email: ");
-    var averageGrade = ReadDouble("Середній бал (0-100): ", 0, 100);
+    var averageGrade = ReadDouble("Середній бал (0-10): ", 0, 10);
     var status = ReadStatus();
     var notes = ReadOptional("Нотатки: ");
 
@@ -142,7 +142,7 @@ static void PrintStudentsWithPagination(IReadOnlyList<Student> students)
 
         foreach (var student in students.Skip(page * pageSize).Take(pageSize))
         {
-            Console.WriteLine($"{student.RecordBookNumber} | {student.FullName} | {student.AverageGrade:F2} | {student.Status}");
+            Console.WriteLine($"{student.RecordBookNumber} | {student.FullName} | {student.AverageGrade:F2} | {student.Status.ToDisplayName()}");
         }
 
         Console.WriteLine();
@@ -209,7 +209,7 @@ static void EditStudent(StudentGroup group)
             student.PersonalEmail = ReadRequired("Новий email: ");
             break;
         case "4":
-            student.UpdateAverageGrade(ReadDouble("Новий середній бал: ", 0, 100));
+            student.UpdateAverageGrade(ReadDouble("Новий середній бал (0-10): ", 0, 10));
             break;
         case "5":
             student.Status = ReadStatus();
@@ -234,7 +234,7 @@ static void PrintExcellentAndFailing(StudentGroup group)
     Console.WriteLine("Відмінники:");
     PrintStudentShortList(group.GetExcellentStudents());
     Console.WriteLine();
-    Console.WriteLine("Студенти з балом < 60:");
+    Console.WriteLine("Студенти з балом < 6:");
     PrintStudentShortList(group.GetFailingStudents());
 }
 
@@ -261,7 +261,7 @@ static void EditGradeJournal(Student student)
             break;
         }
 
-        var grade = ReadDouble("Оцінка (0-100): ", 0, 100);
+        var grade = ReadDouble("Оцінка (0-10): ", 0, 10);
         student.GradeJournal.AddOrUpdateGrade(subject, grade);
     }
 }
@@ -350,10 +350,10 @@ static double ReadDouble(string prompt, double min, double max)
 static StudentStatus ReadStatus()
 {
     Console.WriteLine("Статус:");
-    Console.WriteLine("1. Active");
-    Console.WriteLine("2. AcademicLeave");
-    Console.WriteLine("3. Expelled");
-    Console.WriteLine("4. Graduated");
+    Console.WriteLine($"1. {StudentStatus.Active.ToDisplayName()}");
+    Console.WriteLine($"2. {StudentStatus.AcademicLeave.ToDisplayName()}");
+    Console.WriteLine($"3. {StudentStatus.Expelled.ToDisplayName()}");
+    Console.WriteLine($"4. {StudentStatus.Graduated.ToDisplayName()}");
 
     while (true)
     {
