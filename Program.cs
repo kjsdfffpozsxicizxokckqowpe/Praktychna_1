@@ -4,7 +4,7 @@ using StudentGroupManagement;
 
 Console.OutputEncoding = Encoding.UTF8;
 
-var storagePath = Path.Combine(AppContext.BaseDirectory, "students.json");
+var storagePath = Path.Combine(Directory.GetCurrentDirectory(), "students.json");
 var group = new StudentGroup
 {
     Name = "КН-11",
